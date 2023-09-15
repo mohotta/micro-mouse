@@ -199,6 +199,10 @@ int move(
 
 }
 
+void setup(){
+  
+}
+
 
 void loop()
 {
@@ -224,8 +228,11 @@ void loop()
   int moves[1000]; // can be byte
   int move_index = 0;
 
-  int maze[29][29]; // can be byte
-
+  int** maze;
+  maze=new int* [29]; // can be byte
+  for (int i=0;i<29;i++){
+    maze[i]=new int[29];
+  }
   // learning
   while (true) // need to update condition
   {
