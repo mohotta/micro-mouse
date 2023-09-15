@@ -147,24 +147,28 @@ int move(
   // priority -> front > left > right > back
   // score priority -> go to min score
   else {
+    // only front and left 
     if (wall_locs[0] == 0 && wall_locs[1] == 0) {
       int front = direction_values[direction];
       int left = direction_values[(direction+3)%4];
       nxt_move = front <= left ? 0 : 1;
       maze[(*x_position)][(*y_position)] = (*move_index) + 1;
     }
+    // only front and right
     else if (wall_locs[0] == 0 && wall_locs[2] == 0) {
       int front = direction_values[direction];
       int right = direction_values[(direction+1)%4];
       nxt_move = front <= right ? 0 : 2;
       maze[(*x_position)][(*y_position)] = (*move_index) + 1;
     }
+    // only left and right
     else if (wall_locs[1] == 0 && wall_locs[2] == 0) {
       int left = direction_values[direction+3];
       int right = direction_values[(direction+1)%4];
       nxt_move = left <= right ? 1 : 2;
       maze[(*x_position)][(*y_position)] = (*move_index) + 1;
     }
+    // all sides possible
     else if (wall_locs[0] == 0 && wall_locs[1] == 0 && wall_locs[2] == 0){
       int front = direction_values[direction];
       int left = direction_values[direction+3];
@@ -177,10 +181,12 @@ int move(
       nxt_move = 0;
       maze[(*x_position)][(*y_position)] = (*move_index) + 1;
     }
+    // no wall in left
     else if (wall_locs[1] == 0) {
       nxt_move = 1;
       maze[(*x_position)][(*y_position)] = (*move_index) + 1;
     }
+    // no wall in right
     else if (wall_locs[2] == 0) {
       nxt_move = 2;
       maze[(*x_position)][(*y_position)] = (*move_index) + 1;
@@ -220,6 +226,7 @@ void loop()
 
   int maze[29][29]; // can be byte
 
+  // learning
   while (true) // need to update condition
   {
 
@@ -230,9 +237,70 @@ void loop()
       front_sensor, direction);
     int nxt_move = move(maze, &x_position, &y_position, direction, wall_locs, &move_index, moves);
 
-    // move with nxt_move value
-    // front - 0; left - 1; right - 2
+    if (nxt_move == 0) {
+      // updating coordinates
+      if (direction == 0) 
+        y_position += 2;
+      else if (direction == 1) 
+        x_position += 2;
+      else if (direction == 2)
+        y_position -= 2;
+      else
+        x_position -= 2;
 
+      // move forward
+      
+    }
+    else if (nxt_move == 1) {
+      // updating coordinates
+      if (direction == 0) 
+        x_position -= 2;
+      else if (direction == 1) 
+        y_position += 2;
+      else if (direction == 2)
+        x_position += 2;
+      else
+        y_position -= 2;
+      
+      // turn 90 anticlock
+      // check direction
+      // move forward
+      
+    }
+    else if (nxt_move == 2) {
+      // updating coordinates
+      if (direction == 0) 
+        x_position += 2;
+      else if (direction == 1) 
+        y_position -= 2;
+      else if (direction == 2)
+        x_position -= 2;
+      else
+        y_position += 2;
+      
+      // turn 90 clock
+      // check direction
+      // move forward
+      
+    }
+    else {
+      // updating coordinates
+      if (direction == 0) 
+        y_position -= 2;
+      else if (direction == 1) 
+        x_position -= 2;
+      else if (direction == 2)
+        y_position += 2;
+      else
+        x_position += 2;
+      
+      // turn 180
+      // check direction
+      // move forward
+      
+    }
   }
+
+  // moving 
 
 }
