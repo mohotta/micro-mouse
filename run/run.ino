@@ -20,7 +20,7 @@ int* map_maze(
     int direction // can be byte
   )
 {
-  // save wall location as front,left,right and back
+  // save wall location as front,left, and right
   int wall_locs[3]; // can be byte
 
   if (left_sensor)
@@ -28,22 +28,22 @@ int* map_maze(
     wall_locs[1] = 1;
     if (direction == 0) {
       // exeeding left wall
-      if (x_position - 1 > 0)
+      if (x_position - 1 >= 0)
         maze[x_position - 1][y_position] = 1;
     }
     else if (direction == 1) {
       // exeeding top wall
-      if (y_position + 1 < 26)
+      if (y_position + 1 <= 28)
          maze[x_position][y_position + 1] = 1;
     }
     else if (direction == 2) {
       // exeeding right wall
-      if (x_position + 1 < 26)
+      if (x_position + 1 <= 28)
         maze[x_position + 1][y_position] = 1;
     }
     else {
       // exeeding bottom wall
-      if (y_position - 1 > 0)
+      if (y_position - 1 >= 0)
         maze[x_position][y_position - 1] = 1;
     }
   }
@@ -53,22 +53,22 @@ int* map_maze(
     wall_locs[2] = 1;
     if (direction == 0) {
       // exeeding right wall
-      if (x_position + 1 < 26)
+      if (x_position + 1 <= 28)
         maze[x_position + 1][y_position] = 1;
     }
     else if (direction == 1) {
       // exeeding bottom wall
-      if (y_position - 1 > 0)
+      if (y_position - 1 >= 0)
         maze[x_position][y_position - 1] = 1;
     }
     else if (direction == 2) {
       // exeeding left wall
-      if (x_position - 1 > 0)
+      if (x_position - 1 >= 0)
         maze[x_position - 1][y_position] = 1;
     }
     else {
       // exeeding top wall
-      if (y_position + 1 < 26)
+      if (y_position + 1 <= 28)
         maze[x_position][y_position + 1] = 1;
     }
   }
@@ -78,22 +78,22 @@ int* map_maze(
     wall_locs[0] = 1;
     if (direction == 0) {
       // exeeding top wall
-      if (y_position + 1 < 26)
+      if (y_position + 1 <= 28)
         maze[x_position][y_position + 1] = 1;
     }
     else if (direction == 1) {
       // exeeding right wall
-      if (x_position + 1 < 26)
+      if (x_position + 1 <= 28)
         maze[x_position + 1][y_position] = 1;
     }
     else if (direction == 2) {
       // exeeding bottom wall
-      if (y_position - 1 > 0)
+      if (y_position - 1 >= 0)
         maze[x_position][y_position - 1] = 1;
     }
     else {
       // exeeding left wall
-      if (y_position - 1 > 0)
+      if (y_position - 1 >= 0)
         maze[x_position - 1][y_position] = 1;
     }
   }
@@ -119,26 +119,26 @@ int move(
 
   // checking available directions
   //north
-  if (((*y_position)+1 < 26) && maze[(*x_position)][(*y_position)+1] != 1) {
+  if ((*y_position)+2 <= 27) {
     direction_values[0] = maze[(*x_position)][(*y_position)+2];
   }
   // east
-  if (((*x_position)+1 < 26) && maze[(*x_position)+1][(*y_position)] != 1) {
+  if ((*x_position)+2 <= 27) {
     direction_values[1] = maze[(*x_position)+2][(*y_position)];
   }
   // south
-  if (((*y_position)-1 > 0) && maze[(*x_position)][(*y_position)-1] != 1) {
+  if ((*y_position)-2 >= 1) {
     direction_values[2] = maze[(*x_position)][(*y_position)-2];
   }
   // west
-  if (((*x_position)-1 > 0) && maze[(*x_position)-1][(*y_position)] != 1) {
+  if ((*x_position)-2 >= 1) {
     direction_values[3] = maze[(*x_position)-2][(*y_position)];
   }
 
   // only backward
   if (wall_locs[0] == 1 && wall_locs[1] == 1 && wall_locs[2] == 1) {
     // this is a dead end
-    // no going back
+    // no going forward
     maze[(*x_position)][(*y_position)] = 10000; // big number
     // reset last move to restrict the box
     (*move_index) -= 2;
@@ -218,7 +218,7 @@ void loop()
   int moves[1000]; // can be byte
   int move_index = 0;
 
-  int maze[27][27]; // can be byte
+  int maze[29][29]; // can be byte
 
   while (true) // need to update condition
   {
